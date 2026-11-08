@@ -7,38 +7,116 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <title>GetMoneyAds</title>
 <style>
+* { box-sizing: border-box; }
+
 body {
+  margin: 0;
+  padding: 25px 18px;
   background: #101827;
   color: white;
-  font-family: Arial;
-  text-align: center;
-  padding: 30px 20px;
+  font-family: Arial, sans-serif;
 }
+
+.container {
+  max-width: 480px;
+  margin: auto;
+}
+
+.header {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.header h1 {
+  color: #42a5ff;
+  margin-bottom: 8px;
+}
+
 .card {
   background: #1d293b;
-  padding: 25px;
-  border-radius: 15px;
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 16px;
 }
+
+.card h3 {
+  margin-top: 0;
+}
+
+.info {
+  color: #aab8cc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.status {
+  display: inline-block;
+  background: #34445a;
+  color: #d4e4f7;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
 button {
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-radius: 10px;
   background: #1688e8;
   color: white;
-  border: 0;
-  padding: 15px;
-  border-radius: 10px;
-  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.footer {
+  color: #78899f;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 25px;
 }
 </style>
 </head>
+
 <body>
-<h2>GetMoneyAds</h2>
-<p>Earn through advertisements</p>
-<div class="card">
-  <h3>Sponsored Advertisement</h3>
-  <p>Watch available advertisements.</p>
-  <button onclick="alert('Ads are not configured yet.')">
-    Watch Advertisement
-  </button>
+<div class="container">
+
+  <div class="header">
+    <h1>GetMoneyAds</h1>
+    <p class="info">Advertisement Platform</p>
+  </div>
+
+  <div class="card">
+    <h3>Welcome!</h3>
+    <p class="info">
+      Welcome to GetMoneyAds. Explore the platform
+      and stay tuned for available features.
+    </p>
+    <span class="status">Platform Preview</span>
+  </div>
+
+  <div class="card">
+    <h3>Sponsored Advertisement</h3>
+    <p class="info">
+      Advertisement features are currently being prepared.
+    </p>
+    <button disabled style="opacity:0.5">
+      Coming Soon
+    </button>
+  </div>
+
+  <div class="footer">
+    GetMoneyAds Platform
+  </div>
+
 </div>
+
+<script>
+if (window.Telegram && window.Telegram.WebApp) {
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
+}
+</script>
 </body>
 </html>
-
