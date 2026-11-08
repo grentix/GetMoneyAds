@@ -5,7 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- Monetag SDK -->
+<script src="https://libtl.com/sdk.js"
+data-zone="12218302"
+data-sdk="show_12218302"></script>
+
 <title>GetMoneyAds</title>
+
 <style>
 * { box-sizing: border-box; }
 
@@ -27,10 +34,7 @@ body {
   padding: 25px 10px;
 }
 
-.header h1 {
-  color: #42a5ff;
-  margin-bottom: 8px;
-}
+.header h1 { color: #42a5ff; }
 
 .card {
   background: #1d293b;
@@ -39,23 +43,10 @@ body {
   margin-bottom: 16px;
 }
 
-.card h3 {
-  margin-top: 0;
-}
-
 .info {
   color: #aab8cc;
   font-size: 14px;
   line-height: 1.6;
-}
-
-.status {
-  display: inline-block;
-  background: #34445a;
-  color: #d4e4f7;
-  padding: 7px 12px;
-  border-radius: 20px;
-  font-size: 12px;
 }
 
 button {
@@ -70,9 +61,19 @@ button {
   margin-top: 15px;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
+#status {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #aab8cc;
+}
+
 .footer {
-  color: #78899f;
   text-align: center;
+  color: #78899f;
   font-size: 12px;
   margin-top: 25px;
 }
@@ -90,20 +91,21 @@ button {
   <div class="card">
     <h3>Welcome!</h3>
     <p class="info">
-      Welcome to GetMoneyAds. Explore the platform
-      and stay tuned for available features.
+      Watch available advertisements on GetMoneyAds.
     </p>
-    <span class="status">Platform Preview</span>
   </div>
 
   <div class="card">
     <h3>Sponsored Advertisement</h3>
     <p class="info">
-      Advertisement features are currently being prepared.
+      Press the button below to open a rewarded advertisement.
     </p>
-    <button disabled style="opacity:0.5">
-      Coming Soon
+
+    <button id="watchButton" onclick="watchAd()">
+      Watch Advertisement
     </button>
+
+    <div id="status"></div>
   </div>
 
   <div class="footer">
@@ -117,6 +119,29 @@ if (window.Telegram && window.Telegram.WebApp) {
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
 }
+
+async function watchAd() {
+  const button = document.getElementById("watchButton");
+  const status = document.getElementById("status");
+
+  if (typeof window.show_12218302 !== "function") {
+    status.textContent = "Advertisement is not available yet.";
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "Loading advertisement...";
+
+  try {
+    await window.show_12218302();
+    status.textContent = "Advertisement session completed. Reward verification is pending.";
+  } catch (error) {
+    status.textContent = "Advertisement could not be completed. Please try again later.";
+  } finally {
+    button.disabled = false;
+  }
+}
 </script>
+
 </body>
 </html>
