@@ -4,17 +4,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <!-- Monetag SDK -->
-<script src="https://libtl.com/sdk.js"
-data-zone="12218302"
-data-sdk="show_12218302"></script>
+<script
+  src="https://libtl.com/sdk.js"
+  data-zone="12218302"
+  data-sdk="show_12218302">
+</script>
 
 <title>GetMoneyAds</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -34,7 +39,9 @@ body {
   padding: 25px 10px;
 }
 
-.header h1 { color: #42a5ff; }
+.header h1 {
+  color: #42a5ff;
+}
 
 .card {
   background: #1d293b;
@@ -81,6 +88,7 @@ button:disabled {
 </head>
 
 <body>
+
 <div class="container">
 
   <div class="header">
@@ -97,6 +105,7 @@ button:disabled {
 
   <div class="card">
     <h3>Sponsored Advertisement</h3>
+
     <p class="info">
       Press the button below to open a rewarded advertisement.
     </p>
@@ -130,13 +139,38 @@ async function watchAd() {
   }
 
   button.disabled = true;
-  status.textContent = "Loading advertisement...";
+  status.textContent = "Opening advertisement...";
+
+  const ymid =
+    "tg-" +
+    Date.now() +
+    "-" +
+    Math.random().toString(36).slice(2);
 
   try {
-    await window.show_12218302();
-    status.textContent = "Advertisement session completed. Reward verification is pending.";
+    const result = await window.show_12218302({
+      type: "pop",
+      ymid: ymid,
+      requestVar: "watch_button"
+    });
+
+    if (result?.reward_event_type === "valued") {
+      status.textContent =
+        "Advertisement event verified. Reward processing is pending.";
+    } else if (result?.reward_event_type === "non_valued") {
+      status.textContent =
+        "Advertisement completed, but this event was not monetized.";
+    } else {
+      status.textContent =
+        "Advertisement opened. Server verification is pending.";
+    }
+
   } catch (error) {
-    status.textContent = "Advertisement could not be completed. Please try again later.";
+    console.error("Monetag error:", error);
+
+    status.textContent =
+      "Advertisement could not be verified. Please try again later.";
+
   } finally {
     button.disabled = false;
   }
